@@ -47,7 +47,7 @@ async function getImage() {
 }
 
 // Cron
-let cornNsfw = new cron.CronJob('*/1 * * * *', () => {
+let cornNsfw = new cron.CronJob('*/10 * * * *', () => {
 
     // Request message every 1 min
     // Fetch image
