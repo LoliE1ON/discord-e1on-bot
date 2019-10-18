@@ -52,9 +52,8 @@ async function getImage() {
 }
 
 // Cron
-let cornNsfw = new cron.CronJob('*/10 * * * *', () => {
-
-    // Request message every 1 min
+// Request message every 10 min
+let cronJob = new cron.CronJob('*/10 * * * *', () => {
 
     channels.forEach((channel) => {
 
@@ -64,10 +63,10 @@ let cornNsfw = new cron.CronJob('*/10 * * * *', () => {
             if (image !== undefined) {
 
                 // Channel id
-                let channel = client.channels.get(channel);
+                let discordChannel = client.channels.get(channel);
 
                 // Send message
-                channel.send("", {files: [image]});
+                discordChannel.send("", {files: [image]});
 
             }
 
@@ -80,7 +79,7 @@ let cornNsfw = new cron.CronJob('*/10 * * * *', () => {
 // Bot ready
 client.on('ready', () => {
     // Start cron
-    cornNsfw.start();
+    cronJob.start();
 });
 
 // Login Bot
