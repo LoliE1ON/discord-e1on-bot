@@ -53,7 +53,7 @@ async function getImage() {
 
 // Cron
 // Request message every 10 min
-let cronJob = new cron.CronJob('*/10 * * * *', () => {
+let cronJob = new cron.CronJob('*/30 * * * *', () => {
 
     channels.forEach((channel) => {
 
