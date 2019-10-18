@@ -82,5 +82,12 @@ client.on('ready', () => {
     cronJob.start();
 });
 
+// Messages
+client.on('message', msg => {
+    if (msg.content === '!Утюг') {
+        msg.reply('-_-');
+    }
+})
+
 // Login Bot
 client.login(_env.BOT_TOKEN);
