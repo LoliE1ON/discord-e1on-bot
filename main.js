@@ -8,6 +8,11 @@ const Discord = require('discord.js');
 // Client
 let client = new Discord.Client();
 
+// Channel IDs
+let channels = [
+    "634741083284439040", // LoliChat
+    "634652026172866561" // Loli Library
+];
 
 // Fetch image
 async function getImage() {
@@ -50,18 +55,23 @@ async function getImage() {
 let cornNsfw = new cron.CronJob('*/10 * * * *', () => {
 
     // Request message every 1 min
-    // Fetch image
-    getImage().then(image => {
 
-        if (image !== undefined) {
+    channels.forEach((channel) => {
 
-            // Channel id
-            let channel = client.channels.get(_env.NSFW_CHANNEL_ID);
+        // Fetch image
+        getImage().then(image => {
 
-            // Send message
-            channel.send("", {files: [image]});
+            if (image !== undefined) {
 
-        }
+                // Channel id
+                let channel = client.channels.get(channel);
+
+                // Send message
+                channel.send("", {files: [image]});
+
+            }
+
+        });
 
     });
 
