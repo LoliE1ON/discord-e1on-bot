@@ -1,13 +1,13 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
-const cron = require('cron');
+const axios = require('axios')
+const cheerio = require('cheerio')
+const cron = require('cron')
+let channels = require("./channels.json")
 
 module.exports = class Bot {
 
-    constructor(client, channel) {
+    constructor(client) {
 
         this.client = client;
-        this.channel = channel;
 
         this.run().catch((e) => {
             console.log(e)
@@ -17,13 +17,8 @@ module.exports = class Bot {
 
     async run() {
 
-        // Cron job
+        // Cron
         this.cron();
-
-        // Start cron
-        this.client.on('ready', () => {
-            this.cronJob.start();
-        });
 
     }
 
@@ -35,17 +30,27 @@ module.exports = class Bot {
             // Fetch image
             this.request().then(image => {
 
-                // Channel id
-                let discord = this.client.channels.get(this.channel);
+                if (image.length > 0) {
 
-                // Send message
-                discord.send("", {files: [image]});
+                    for (let channel of channels.list) {
 
-                console.log(`Request message ${image}`)
+                        // Channel id
+                        let discord = this.client.channels.get(channel);
+
+                        // Send message
+                        //discord.send("", {files: [image]});
+
+                        console.log(`Request message ${image}`)
+                    }
+
+                }
 
             });
 
         });
+
+        // Start cron
+        this.cronJob.start();
 
     }
 
@@ -64,22 +69,18 @@ module.exports = class Bot {
             // Html root
             const $ = cheerio.load(res.data);
 
-            // Image
-            let image;
-
             // Parse html
-            $('div.post_content,allow_long > div.image > a.prettyPhotoLink').each((i, elem) => {
+            // Image
+            let parse = $('div.post_content,allow_long > div.image > a.prettyPhotoLink'),
+                image = parse.find('img').attr('src');
 
-                let $img = $(elem).find('img');
-                let src = $img.attr('src');
+            // Image validation
+            if (image != '//css.reactor.cc/images/unsafe_ru.gif' && image.length > 0) {
 
-                if (src !== "//css.reactor.cc/images/unsafe_ru.gif" || src.length > 0) {
-                    image = src;
-                }
+                // Return image url
+                return image;
 
-            });
-
-            return image;
+            }
 
         }
         catch (err) {
