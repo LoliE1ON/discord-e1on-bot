@@ -38,7 +38,7 @@ module.exports = class Bot {
                         let discord = this.client.channels.get(channel);
 
                         // Send message
-                        //discord.send("", {files: [image]});
+                        discord.send("", {files: [image]});
 
                         console.log(`Request message ${image}`)
                     }
