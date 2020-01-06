@@ -23,6 +23,7 @@ client.on('ready', () => {
 
     })
 
+    //
     client.on('guildMemberAdd', member => {
         const guild = client.guilds.get("509065700401348630");
         const role = guild.roles.find("name", "Member");
