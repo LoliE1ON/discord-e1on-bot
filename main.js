@@ -4,6 +4,7 @@
 
 const Bot = require("./Bot.js")
 const Discord = require('discord.js')
+const messages  = require('./components/messages');
 
 const env = require('dotenv').config().parsed;
 
@@ -14,6 +15,9 @@ client.on('ready', () => {
     // Image bot
     new Bot(client)
 
+    // Implement color picker
+    messages(client)
+
     client.on('message', message => {
 
         // Get help
@@ -22,13 +26,6 @@ client.on('ready', () => {
         }
 
     })
-
-    //
-    client.on('guildMemberAdd', member => {
-        const guild = client.guilds.get("509065700401348630");
-        const role = guild.roles.find("name", "Member");
-        member.addRole(role.id);
-    });
 
 });
 
