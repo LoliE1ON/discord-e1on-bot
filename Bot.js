@@ -25,7 +25,7 @@ module.exports = class Bot {
     // Request message every 30 min
     async cron() {
 
-        this.cronJob = new cron.CronJob('*/30 * * * *', () => {
+        this.cronJob = new cron.CronJob('*/20 * * * *', () => {
 
             // Fetch image
             this.request().then(image => {
